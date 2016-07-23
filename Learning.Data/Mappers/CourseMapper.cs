@@ -1,13 +1,8 @@
 ﻿using Learning.Data.Entities;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Learning.Data.Mappers {
-    class CourseMapper: EntityTypeConfiguration<Course> {
+    public class CourseMapper : EntityTypeConfiguration<Course> {
         public CourseMapper() {
             this.ToTable("Courses");
 
@@ -23,8 +18,8 @@ namespace Learning.Data.Mappers {
             this.Property(c => c.Description).IsOptional();
             this.Property(c => c.Description).HasMaxLength(1000);
 
-            this.HasRequired(c => c.CourseSubject).WithMany().Map(s => s.MapKey("SubjectID"));
-            this.HasRequired(c => c.CourseTutor).WithMany().Map(t => t.MapKey("TutorID"));
+            this.HasRequired(c => c.CourseSubject).WithMany(c => c.Courses).Map(s => s.MapKey("SubjectID"));
+            this.HasRequired(c => c.CourseTutor).WithMany(c => c.Courses).Map(t => t.MapKey("TutorID"));
         }
     }
 }

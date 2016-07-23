@@ -1,13 +1,8 @@
 ﻿using Learning.Data.Entities;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Learning.Data.Mappers {
-    class StudentMapper: EntityTypeConfiguration<Student> {
+    public class StudentMapper: EntityTypeConfiguration<Student> {
         public StudentMapper() {
             this.ToTable("Students");
 

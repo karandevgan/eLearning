@@ -1,14 +1,15 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Learning.Data")]
+[assembly: AssemblyTitle("Learning.Data.Debug")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Learning.Data")]
+[assembly: AssemblyProduct("Learning.Data.Debug")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("0b99becc-647d-46a0-8dda-31a15bfd6041")]
+[assembly: Guid("c9701b62-fcf7-420b-a3ba-6add5c011fc9")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Learning.Data {
-    class LearningDataSeeder {
+    public class LearningDataSeeder {
         LearningContext context;
 
         public LearningDataSeeder(LearningContext context) {

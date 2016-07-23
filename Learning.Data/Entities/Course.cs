@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Learning.Data.Entities {
-    class Course {
+    public class Course {
         public Course() {
             Enrollments = new List<Enrollment>();
             CourseTutor = new Tutor();
@@ -14,7 +11,7 @@ namespace Learning.Data.Entities {
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public Double Duration { get; set; }
+        public double Duration { get; set; }
         public string Description { get; set; }
 
         public Tutor CourseTutor { get; set; }

@@ -3,11 +3,10 @@ using Learning.Data.Mappers;
 using System.Data.Entity;
 
 namespace Learning.Data {
-    class LearningContext: DbContext {
-        public LearningContext(): base("eLearningConnection") {
+    public class LearningContext: DbContext {
+        public LearningContext() : base("eLearningConnection") {
             Configuration.ProxyCreationEnabled = false;
             Configuration.LazyLoadingEnabled = false;
-
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<LearningContext, LearningContextMigrationConfiguration>());
         }
 
@@ -18,6 +17,7 @@ namespace Learning.Data {
         public DbSet<Tutor> Tutors { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
+            
             modelBuilder.Configurations.Add(new StudentMapper());
             modelBuilder.Configurations.Add(new SubjectMapper());
             modelBuilder.Configurations.Add(new TutorMapper());

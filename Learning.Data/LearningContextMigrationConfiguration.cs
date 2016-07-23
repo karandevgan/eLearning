@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity.Migrations;
 
 namespace Learning.Data {
-    class LearningContextMigrationConfiguration : DbMigrationsConfiguration<LearningContext> {
+    public class LearningContextMigrationConfiguration : DbMigrationsConfiguration<LearningContext> {
         public LearningContextMigrationConfiguration() {
             this.AutomaticMigrationDataLossAllowed = true;
             this.AutomaticMigrationsEnabled = true;

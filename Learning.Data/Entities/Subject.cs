@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Learning.Data.Entities {
-    class Subject {
+    public class Subject {
         public Subject() {
             Courses = new List<Course>();
         }

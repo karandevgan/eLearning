@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Learning.Data.Entities;
 
 namespace Learning.Data {
-    class LearningRepository : ILearningRepository {
+    public class LearningRepository : ILearningRepository {
         private LearningContext context;
 
         public LearningRepository(LearningContext context) {
