@@ -79,7 +79,7 @@ namespace Learning.Data {
             }
             catch (Exception ex) {
                 string message = ex.ToString();
-                throw ex;
+                throw;
             }
         }
 
