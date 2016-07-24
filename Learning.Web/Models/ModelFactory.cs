@@ -1,13 +1,17 @@
 ﻿using Learning.Data.Entities;
 using System.Net.Http;
+using System;
+using Learning.Data;
 
 namespace Learning.Web.Models {
     public class ModelFactory {
 
         private System.Web.Http.Routing.UrlHelper _urlHelper;
+        private ILearningRepository _repo;
 
-        public ModelFactory(HttpRequestMessage request) {
+        public ModelFactory(HttpRequestMessage request, ILearningRepository repo) {
             _urlHelper = new System.Web.Http.Routing.UrlHelper(request);
+            _repo = repo;
         }
 
         public CourseModel Create(Course course) {
@@ -45,6 +49,22 @@ namespace Learning.Web.Models {
                 EnrollmentDate = enrollment.EnrollmentDate,
                 Course = Create(enrollment.Course)
             };
+        }
+
+        public Course Parse(CourseModel model) {
+            try {
+                var course = new Course() {
+                    Name = model.Name,
+                    Description = model.Description,
+                    Duration = model.Duration,
+                    CourseSubject = _repo.GetSubject(model.Subject.Id),
+                    CourseTutor = _repo.GetTutor(model.Tutor.Id)
+                };
+                return course;
+            }
+            catch (Exception) {
+                return null;
+            }
         }
     }
 }
