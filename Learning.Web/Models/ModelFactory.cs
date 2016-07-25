@@ -2,20 +2,57 @@
 using System.Net.Http;
 using System;
 using Learning.Data;
+using System.Linq;
 
-namespace Learning.Web.Models {
-    public class ModelFactory {
+namespace Learning.Web.Models
+{
+    public class ModelFactory
+    {
 
         private System.Web.Http.Routing.UrlHelper _urlHelper;
         private ILearningRepository _repo;
 
-        public ModelFactory(HttpRequestMessage request, ILearningRepository repo) {
+        public ModelFactory(HttpRequestMessage request, ILearningRepository repo)
+        {
             _urlHelper = new System.Web.Http.Routing.UrlHelper(request);
             _repo = repo;
         }
 
-        public CourseModel Create(Course course) {
-            return new CourseModel() {
+        public StudentModel Create(Student student)
+        {
+            return new StudentModel()
+            {
+                Url = _urlHelper.Link("Students", new { userName = student.UserName }),
+                Id = student.Id,
+                UserName = student.UserName,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                DateOfBirth = student.DateOfBirth,
+                Email = student.Email,
+                Gender = student.Gender,
+                RegistrationDate = student.RegistrationDate,
+                EnrollmentsCount = student.Enrollments.Count,
+                Enrollments = student.Enrollments.Select(e => Create(e))
+            };
+        }
+
+        public StudentBaseModel CreateSummary(Student student)
+        {
+            return new StudentBaseModel()
+            {
+                Url = _urlHelper.Link("Students", new { userName = student.UserName }),
+                Id = student.Id,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Gender = student.Gender,
+                EnrollmentsCount = student.Enrollments.Count                
+            };
+        }
+
+        public CourseModel Create(Course course)
+        {
+            return new CourseModel()
+            {
                 Url = _urlHelper.Link("Courses", new { id = course.Id }),
                 Id = course.Id,
                 Name = course.Name,
@@ -26,8 +63,10 @@ namespace Learning.Web.Models {
             };
         }
 
-        public TutorModel Create(Tutor tutor) {
-            return new TutorModel() {
+        public TutorModel Create(Tutor tutor)
+        {
+            return new TutorModel()
+            {
                 Id = tutor.Id,
                 Email = tutor.Email,
                 UserName = tutor.UserName,
@@ -37,23 +76,30 @@ namespace Learning.Web.Models {
             };
         }
 
-        public SubjectModel Create(Subject subject) {
-            return new SubjectModel() {
+        public SubjectModel Create(Subject subject)
+        {
+            return new SubjectModel()
+            {
                 Id = subject.Id,
                 Name = subject.Name
             };
         }
 
-        public EnrollmentModel Create(Enrollment enrollment) {
-            return new EnrollmentModel() {
+        public EnrollmentModel Create(Enrollment enrollment)
+        {
+            return new EnrollmentModel()
+            {
                 EnrollmentDate = enrollment.EnrollmentDate,
                 Course = Create(enrollment.Course)
             };
         }
 
-        public Course Parse(CourseModel model) {
-            try {
-                var course = new Course() {
+        public Course Parse(CourseModel model)
+        {
+            try
+            {
+                var course = new Course()
+                {
                     Name = model.Name,
                     Description = model.Description,
                     Duration = model.Duration,
@@ -62,7 +108,8 @@ namespace Learning.Web.Models {
                 };
                 return course;
             }
-            catch (Exception) {
+            catch (Exception)
+            {
                 return null;
             }
         }

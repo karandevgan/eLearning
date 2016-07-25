@@ -64,7 +64,6 @@ namespace Learning.Data {
                     context.Students.Add(student);
 
                     int maxCourseId = context.Courses.Max(c => c.Id);
-
                     for (int z = 0; z < 4; z++) {
                         int randomCourseId = new Random().Next(1, maxCourseId);
                         var enrollment = new Enrollment {

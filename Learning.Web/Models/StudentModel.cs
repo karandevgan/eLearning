@@ -6,7 +6,7 @@ namespace Learning.Web.Models {
         public string Email { get; set; }
         public string UserName { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public DateTime RegistrationDate { get; set; }
+        public DateTime? RegistrationDate { get; set; }
         public IEnumerable<EnrollmentModel> Enrollments { get; set; }
     }
 }

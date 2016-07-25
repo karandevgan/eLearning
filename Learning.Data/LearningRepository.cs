@@ -62,7 +62,7 @@ namespace Learning.Data {
                 }
                 return 0;
             }
-            catch (Exception ex) {
+            catch (Exception) {
                 return 0;
             }
         }
