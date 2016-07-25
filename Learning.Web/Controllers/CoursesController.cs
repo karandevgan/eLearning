@@ -7,19 +7,37 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Routing;
 
 namespace Learning.Web.Controllers {
-    public class CoursesController : BaseApiController
-    {
+    public class CoursesController : BaseApiController {
         public CoursesController(ILearningRepository repo) : base(repo) {
-            
+
         }
 
-        public IEnumerable<CourseModel> Get() {
+        public IEnumerable<CourseModel> Get(int page = 0, int pageSize = 10) {
             IQueryable<Course> query;
-            query = TheRepository.GetAllCourses();
+            query = TheRepository.GetAllCourses().OrderBy(c => c.CourseSubject.Id);
 
+            var totalCount = query.Count();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+
+            var urlHelper = new UrlHelper(Request);
+            var prevLink = page > 0 ? urlHelper.Link("Courses", new { page = page - 1 }) : "";
+            var nextLink = page < totalPages - 1 ? urlHelper.Link("Courses", new { page = page + 1 }) : "";
+
+            var paginationHeaders = new {
+                TotalCount = totalCount,
+                TotalPages = totalPages,
+                PrevPageLink = prevLink,
+                NextPageLink = nextLink
+            };
+
+            System.Web.HttpContext.Current.Response.Headers.Add("X-Pagination", Newtonsoft.Json.JsonConvert.SerializeObject(paginationHeaders));
+ 
             var results = query
+                .Skip(pageSize * page)
+                .Take(pageSize)
                 .ToList()
                 .Select(s => TheModelFactory.Create(s));
 
