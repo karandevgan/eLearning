@@ -47,7 +47,7 @@ namespace Learning.Data {
                 if (context.Enrollments.Any(e => e.Course.Id == courseId && e.Student.Id == studentId))
                     return 2;
 
-                context.Database.ExecuteSqlCommand("INSERT INTO ENROLLMENTS VALUE (@p0, @p1, @p2)", 
+                context.Database.ExecuteSqlCommand("INSERT INTO ENROLLMENTS VALUES (@p0, @p1, @p2)", 
                     enrollment.EnrollmentDate, courseId.ToString(), studentId.ToString());
                 return 1;
             }
@@ -62,7 +62,7 @@ namespace Learning.Data {
                 }
                 return 0;
             }
-            catch (Exception) {
+            catch (Exception ex) {
                 return 0;
             }
         }
