@@ -1,5 +1,6 @@
 ﻿using Learning.Data;
 using Learning.Data.Entities;
+using Learning.Web.Filters;
 using Learning.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -51,7 +52,7 @@ namespace Learning.Web.Controllers {
             }
             return result;
         }
-
+        [LearningAuthorizeAttribute]
         public HttpResponseMessage GetStudent(string userName) {
             try {
                 var student = TheRepository.GetStudent(userName);
@@ -64,6 +65,7 @@ namespace Learning.Web.Controllers {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
         }
+
 
         public HttpResponseMessage Post([FromBody] Student student) {
             try {
@@ -80,6 +82,8 @@ namespace Learning.Web.Controllers {
             }
         }
 
+
+        [LearningAuthorizeAttribute]
         [HttpPut]
         [HttpPatch]
         public HttpResponseMessage Put(string userName, [FromBody] Student student) {

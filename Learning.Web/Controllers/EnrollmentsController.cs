@@ -1,8 +1,7 @@
 ﻿using Learning.Data;
 using Learning.Data.Entities;
-using Learning.Web.Models;
+using Learning.Web.Filters;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -29,6 +28,7 @@ namespace Learning.Web.Controllers {
             return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
+        [LearningAuthorizeAttribute]
         public HttpResponseMessage Post(int courseId, [FromUri] string userName, [FromBody] Enrollment enrollment) {
             try {
                 if (!TheRepository.CourseExists(courseId)) return Request.CreateResponse(HttpStatusCode.NotFound, "Could not find course.");

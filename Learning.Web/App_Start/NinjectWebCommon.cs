@@ -1,8 +1,7 @@
 [assembly: WebActivator.PreApplicationStartMethod(typeof(Learning.Web.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivator.ApplicationShutdownMethodAttribute(typeof(Learning.Web.App_Start.NinjectWebCommon), "Stop")]
 
-namespace Learning.Web.App_Start
-{
+namespace Learning.Web.App_Start {
     using System;
     using System.Web;
 
@@ -12,6 +11,10 @@ namespace Learning.Web.App_Start
     using Ninject.Web.Common;
     using System.Web.Http;
     using Data;
+    using System.Web.Http.Filters;
+    using System.Collections.Generic;
+    using System.Web.Http.Controllers;
+    using System.Linq;
 
     public static class NinjectWebCommon 
     {
@@ -47,7 +50,7 @@ namespace Learning.Web.App_Start
 
             //Support WebApi Injection
             GlobalConfiguration.Configuration.DependencyResolver = new WebApiContrib.IoC.Ninject.NinjectResolver(kernel);
-
+            GlobalConfiguration.Configuration.Services.Add(typeof(IFilterProvider), new NinjectWebApiFilterProvider(kernel));
             RegisterServices(kernel);
             return kernel;
         }
@@ -61,5 +64,24 @@ namespace Learning.Web.App_Start
             kernel.Bind<LearningContext>().To<LearningContext>().InRequestScope();
             kernel.Bind<ILearningRepository>().To<LearningRepository>().InRequestScope();
         }        
+    }
+
+    public class NinjectWebApiFilterProvider: IFilterProvider {
+        private IKernel kernel;
+
+        public NinjectWebApiFilterProvider(IKernel kernel) {
+            this.kernel = kernel;
+        }
+
+        public IEnumerable<FilterInfo> GetFilters(HttpConfiguration configuration, HttpActionDescriptor actionDescriptor) {
+            var controllerFilters = actionDescriptor.ControllerDescriptor.GetFilters().Select(instance => new FilterInfo(instance, FilterScope.Controller));
+            var actionFilters = actionDescriptor.GetFilters().Select(instance => new FilterInfo(instance, FilterScope.Action));
+
+            var filters = controllerFilters.Concat(actionFilters);
+            foreach (var filter in filters) {
+                kernel.Inject(filter.Instance);
+            }
+            return filters;
+        }
     }
 }
